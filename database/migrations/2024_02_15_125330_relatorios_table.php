@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('topico_id')->constrained('topicos');
             $table->string('titulo');
             $table->string('descrição');
+            $table->string('situacao')->nullable();
             $table->timestamps();
         });
     }

@@ -92,6 +92,9 @@
                 border-radius: 30px;
                 outline: none;
             }
+            option{
+                color: #000000;
+            }
 
         }
     </style>
@@ -105,28 +108,33 @@
                 <h2>Cadastro de relatorio</h2>
             </div>
             <div>
-                <form action="">
+                <form action="{{route('store.relatorio')}}" method="POST">
+                    @csrf
                     <div>
                         <label for="">Titulo do relatório</label>
                         <div class="box-input">
-                            <input type="text" name="" id="">
+                            <input type="text" name="titulo" id="">
                         </div>
                     </div>
                     <div>
-                        <label for="">Escolha o topico</label><br>
-                        {{-- <div class="box-input">
-                            <input type="email" name="" id="email">
+                        {{-- <label for="">Escolha o topico</label><br>
+                        @foreach ($topicos as $topico)
 
-                        </div> --}}
-                        <input type="radio" name="" id="" > Teste
-
-
+                        <input type="radio" name="topico_id" id="" > {{$topico->titulo}}
+                        @endforeach --}}
+                        <select name="topico_id" id="">
+                        <option selected disabled value="">Selecione</option>
+                        @foreach ($topicos as $topico)
+                        <option class="text-dark" value="{{$topico->id}}">{{$topico->titulo}}</option>
+                        @endforeach
+                    </select>
+                    <input type="hidden" name="situacao" value="falta">
                     </div>
 
                     <div>
                         <label for="">Descrição de relatorio</label><br>
 
-                        <textarea name="" id="" cols="25" rows="4"></textarea>
+                        <textarea name="descrição" id="" cols="25" rows="4"></textarea>
 
                     </div>
                     <button type="submit">Cadastrar</button>

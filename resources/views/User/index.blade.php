@@ -14,14 +14,9 @@
         }
 
         .content {
-            /* width: 100vw;
-            height: 100vh; */
-            /* display: flex; */
             text-align: center;
             align-items: center;
             justify-content: center;
-            /* background-color: #000000;
-            color: #ffffff; */
         }
         .table {
               text-align: center;
@@ -42,7 +37,7 @@
     <div class="nav">
         <a href="{{route('create.topico')}}">Cadastrar topico</a>
         <a href="{{route('create.relatorio')}}">Cadastrar relatorio</a>
-        <a href="{{route('concluido')}}">Relatorios concluidos</a>
+        <a href="{{route('concluidos')}}">Relatorios concluidos</a>
         <a href="{{route('falta')}}">Relatorios não concluidos</a>
     </div>
     <table border="1" class="tabela">
@@ -50,25 +45,38 @@
             <tr>
                 <th>Topico</th>
                 <th>Titulo relatorio</th>
-                <th>Situação</th>
                 <th>Opção ver</th>
+                <th>Situação</th>
                 <th>Opção NÃO CONCLUIDA Marca como concluida</th>
                 <th>Opção NÃO CONCLUIDA como deletar</th>
             </tr>
         </thead>
         <tbody>
+            @foreach ($relatorios as $relatorio)
+
             <tr>
-                <td>Matematica</td>
-                <td>Atividades</td>
-                <td>Matematica</td>
-                <td>Falta</td>
+                <td>{{$relatorio->topico->titulo}}</td>
+                <td>{{$relatorio->titulo}}</td>
                 <td>
-                    <Button>Concluir</Button>
+                    <Button>Detalhes</Button>
                 </td>
-                <td>
-                    <button>Deletar</button>
+                <td>@if ($relatorio->situacao == null)
+                    falta
+                    @else
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                      </svg>
+                @endif</td>
+                <td> @if ($relatorio->situacao == null)
+                    <Button>Concluido</Button>
+                    @endif
+                </td>
+                <td>@if ($relatorio->situacao == null)
+                    <Button>deletar</Button>
+                    @endif
                 </td>
             </tr>
+            @endforeach
         </tbody>
     </table>
 </div>

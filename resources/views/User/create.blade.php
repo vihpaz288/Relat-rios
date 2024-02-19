@@ -126,30 +126,31 @@
                 <h2>Cadastro</h2>
             </div>
             <div>
-                <form action="">
+                <form action="{{route('store.usuario')}}" method="POST" >
+                    @csrf
                     <div>
                         <label for="">Nome</label>
                         <div class="box-input">
-                            <input type="text" name="" id="">
+                            <input type="text" name="name" id="">
                         </div>
                     </div>
                     <div>
                         <label for="">Email</label>
                         <div class="box-input">
-                            <input type="email" name="" id="email">
+                            <input type="email" name="email" id="email">
 
                         </div>
                     </div>
                     <div>
                         <label for="">Senha</label>
                         <div class="box-input">
-                            <input type="password">
+                            <input type="password" name="password">
                         </div>
                     </div>
                     <div>
                         <label for="">Data de nascimento</label>
                         <div class="box-input">
-                            <input type="date" name="" id="">
+                            <input type="date" name="nascimento" id="">
                         </div>
                     </div>
                     <button type="submit">Cadastrar</button>

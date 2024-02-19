@@ -126,18 +126,19 @@
                 <h2>Login</h2>
             </div>
             <div>
-                <form action="">
+                <form action="{{route('logar')}}" method="POST" >
+                    @csrf
                     <div>
                         <label for="">Email</label>
                         <div class="box-input">
-                            <input type="email" name="" id="email">
+                            <input type="email" name="name" id="email">
 
                         </div>
                     </div>
                     <div>
                         <label for="">Senha</label>
                         <div class="box-input">
-                            <input type="password">
+                            <input type="password" name="password">
                         </div>
                     </div>
                     <button type="submit">Entrar</button>

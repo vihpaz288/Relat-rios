@@ -1,16 +1,21 @@
 <?php
 
-use App\Http\Controllers\Relatorio;
-use App\Http\Controllers\Topico;
-use App\Http\Controllers\User;
+use App\Http\Controllers\relatorioController;
+use App\Http\Controllers\topicoController;
+use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('create/usuario', [User::class, 'create'])->name('create.usuario');
-Route::get('login', [User::class, 'login'])->name('login');
-Route::get('index', [User::class, 'index'])->name('index');
+Route::get('create/usuario', [userController::class, 'create'])->name('create.usuario');
+Route::post('store/usuario', [userController::class, 'store'])->name('store.usuario');
+Route::get('login', [userController::class, 'login'])->name('login');
+Route::post('logar', [userController::class, 'logar'])->name('logar');
+Route::get('index', [userController::class, 'index'])->name('index');
 
-Route::get('create/topico', [Topico::class, 'create'])->name('create.topico');
+Route::get('create/topico', [topicoController::class, 'create'])->name('create.topico');
+Route::post('store/topico', [topicoController::class, 'store'])->name('store.topico');
 
-Route::get('create/relatorio', [Relatorio::class, 'create'])->name('create.relatorio');
-Route::get('concluidos', [Relatorio::class, 'concluidos'])->name('concluidos');
-Route::get('falta', [Relatorio::class, 'falta'])->name('falta');
+Route::get('topico', [relatorioController::class, 'topico'])->name('topico');
+Route::get('create/relatorio', [relatorioController::class, 'create'])->name('create.relatorio');
+Route::post('store/relatorio', [relatorioController::class, 'store'])->name('store.relatorio');
+Route::get('concluidos', [relatorioController::class, 'concluidos'])->name('concluidos');
+Route::get('falta', [relatorioController::class, 'falta'])->name('falta');

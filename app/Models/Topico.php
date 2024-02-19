@@ -9,7 +9,7 @@ class Topico extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'Ttulo'
+        'titulo'
     ];
 
 

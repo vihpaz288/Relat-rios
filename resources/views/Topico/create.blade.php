@@ -105,11 +105,12 @@
                 <h2>Cadastro de tópico</h2>
             </div>
             <div>
-                <form action="">
+                <form action="{{route('store.topico')}}" method="POST" >
+                    @csrf
                     <div>
                         <label for="">Nome</label>
                         <div class="box-input">
-                            <input type="text" name="" id="">
+                            <input type="text" name="titulo" id="">
                         </div>
                     </div>
 
