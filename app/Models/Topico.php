@@ -9,6 +9,7 @@ class Topico extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'user_id',
         'titulo'
     ];
 
@@ -16,5 +17,9 @@ class Topico extends Model
     public function relatorio()
     {
         return $this->hasMany(relatorio::class, 'topico_id', 'id');
+    }
+    public function topico()
+    {
+        return $this->belongsTo(user::class, 'user_id', 'id');
     }
 }

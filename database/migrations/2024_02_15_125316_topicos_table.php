@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('topicos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
             $table->string('titulo');
             $table->timestamps();
+            $table->unique(['user_id', 'titulo']);
         });
     }
 

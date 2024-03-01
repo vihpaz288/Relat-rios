@@ -10,8 +10,10 @@ class Relatorio extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'user_id',
         'topico_id',
         'titulo',
+        'tempo',
         'descrição'
     ];
 
@@ -19,5 +21,9 @@ class Relatorio extends Model
     public function topico()
     {
         return $this->belongsTo(Topico::class, 'topico_id', 'id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

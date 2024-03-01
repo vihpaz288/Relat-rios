@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('relatorios', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('topico_id')->constrained('topicos');
             $table->string('titulo');
             $table->string('descrição');
+            $table->date('tempo');
             $table->string('situacao')->nullable();
             $table->timestamps();
         });

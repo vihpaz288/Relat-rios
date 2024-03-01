@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\topicoCreateFormRequest;
 use App\Models\Topico;
+use Brian2694\Toastr\Facades\Toastr;
 
 class topicoController extends Controller
 {
@@ -11,9 +12,14 @@ class topicoController extends Controller
     {
         return view('Topico.create');
     }
-    public function store(Request $request)
+    public function store(topicoCreateFormRequest $request)
     {
-        Topico::create($request->all());
+        $userId = auth()->id();
+        $Topico = new Topico();
+        $Topico->user_id = $userId;
+        $Topico->titulo = $request->titulo;
+        $Topico->save();
+        Toastr::success('Tópico cadastrado com sucesso!', 'sucesso', ["positionClass" => "toast-bottom-right"]);
         return redirect()->route('index');
     }
 }
