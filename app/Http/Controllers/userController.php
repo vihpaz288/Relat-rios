@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateFormRequest;
 use App\Models\Relatorio;
+use App\Models\Topico;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
@@ -16,6 +17,13 @@ class userController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+        $topicos = Topico::where('user_id', $user->id)->get();
+        $totalRelatorios = Relatorio::where('user_id', $user->id)->count();
+        $relatoriosFeitos = Relatorio::where('situacao', 'concluido')->where('user_id', $user->id)->count();
+        $relatoriosFaltando = Relatorio::whereNull('situacao')->where('user_id', $user->id)->count();
+        $relatoriosAtrasados = Relatorio::where('tempo', '<', now())->where('user_id', $user->id)->count();
+
         $relatorios = Relatorio::where('user_id', $user->id)->get();
         foreach ($relatorios as $relatorio) {
             $tempoFinal = Carbon::parse($relatorio->tempo);
@@ -23,8 +31,9 @@ class userController extends Controller
                 $relatorio->prazo = 'Em atraso';
             }
         }
-        return view('User.index', compact('relatorios'));
+        return view('User.index', compact('relatorios', 'totalRelatorios', 'relatoriosFeitos', 'relatoriosFaltando', 'relatoriosAtrasados'));
     }
+
     public function create()
     {
         return view('User.create');
@@ -33,6 +42,7 @@ class userController extends Controller
     {
         $request['password'] = Hash::make($request->password);
         User::create($request->all());
+        Toastr::success('Cadastrado realizado com sucesso!', 'sucesso', ["positionClass" => "toast-bottom-right"]);
         return redirect()->route('login');
     }
     public function login()

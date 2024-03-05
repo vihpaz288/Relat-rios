@@ -231,6 +231,14 @@
                 @endif
                 <div>
                     <h2>Lista de todos os relatórios</h2>
+                    <div class="icon-container">
+
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal" data-bs-whatever="@fat"
+                            style="background-color: rosybrown; border: none;">Ver gráfico</button>
+                        <span class="icon-label">Quantidade total de relatórios cadastrados, quantos a fazer, em atraso
+                            e concluídos.</span>
+                    </div>
                 </div>
                 <div>
                     <table border="1" class="tabela">
@@ -335,6 +343,56 @@
     </div>
     </div>
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Gráfico de relátorios</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="grafico"
+                        style="position: relative; height:40vh; width:100%; display: flex; justify-content: center;">
+                        <canvas id="myChart"></canvas>
+                        <h5>Total de relatórios: {{ $totalRelatorios }}</h5>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('myChart');
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Feitos', 'Faltando', 'Atrasados'],
+                datasets: [{
+                    label: 'Relatórios',
+                    data: [{{ $relatoriosFeitos }}, {{ $relatoriosFaltando }},
+                        {{ $relatoriosAtrasados }}],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 205, 86, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {}
+        });
+    </script>
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
     {!! Toastr::message() !!}
@@ -349,4 +407,5 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
 </script>
 
-</html>
+
+</html> 

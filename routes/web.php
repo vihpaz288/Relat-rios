@@ -14,7 +14,6 @@ Route::post('logar', [userController::class, 'logar'])->name('logar');
 Route::middleware(Authenticate::class)->group(function () {
     Route::get('sair', [userController::class, 'sair'])->name('sair');
     Route::get('index', [userController::class, 'index'])->name('index');
-
     Route::get('create/topico', [topicoController::class, 'create'])->name('create.topico');
     Route::post('store/topico', [topicoController::class, 'store'])->name('store.topico');
 

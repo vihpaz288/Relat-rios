@@ -55,13 +55,18 @@ class relatorioController extends Controller
     public function detalhes($id)
     {
         $detalhes = Relatorio::find($id);
+        if (!$detalhes) {
+            Toastr::error('Relatório não encontrado', 'Erro', ["positionClass" => "toast-bottom-right"]);
+            return redirect()->route('index');
+        }
         return view('Relatorio.detalhes', compact('detalhes'));
     }
     public function concluidos()
     {
         $user = auth()->user();
+        $dataAtual = date('d-m-Y H:i:s');
         $concluidos = Relatorio::where('situacao', 'concluido')->where('user_id', $user->id)->get();
-        return view('Relatorio.concluido', compact('concluidos'));
+        return view('Relatorio.concluido', compact('concluidos', 'dataAtual'));
     }
     public function pdfConcluido()
     {

@@ -55,7 +55,6 @@ class relatorioCreateFormRequest extends FormRequest
             'descrição.required' => 'Campo descrição é obrigatório',
             'descrição.min' => 'Campo descrição tem quantidade mínima de 3 caracteres',
             'descrição.max' => 'Campo descrição tem quantidade máxima de 200 caracteres',
-
             'topico_id.required' => 'Campo tópico é obrigatório',
         ];
     }

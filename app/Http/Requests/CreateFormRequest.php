@@ -25,7 +25,7 @@ class CreateFormRequest extends FormRequest
             'name' => [
                 'required',
                 'min:3',
-                'max:20',
+                'max:30',
             ],
 
             'email' => [
@@ -47,7 +47,7 @@ class CreateFormRequest extends FormRequest
         return [
             'name.required' => 'Campo nome é obrigatório',
             'name.min' => 'Campo nome tem uma quantidade mínima de 3 caracteres',
-            'name.max' => 'Campo nome tem uma quantidade máxima de 20 caracteres',
+            'name.max' => 'Campo nome tem uma quantidade máxima de 30 caracteres',
             'email.required' => 'Campo email é obrigatório',
             'email.min' => 'Campo email tem uma quantidade mínima de 12 caracteres',
             'email.max' => 'Campo email tem uma quantidade máxima de 30 caracteres',
