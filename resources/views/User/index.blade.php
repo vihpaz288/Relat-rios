@@ -259,7 +259,8 @@
                                     <td>{{ $relatorio->topico->titulo }}</td>
                                     <td>{{ $relatorio->titulo }}</td>
                                     <td>
-                                        @if ($relatorio->situacao != null)
+
+                                        @if ($relatorio->verificaPrazo() == 1)
                                             <div class="icon-container">
                                                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="16"
                                                     height="16" fill="currentColor" class="bi bi-check-circle-fill "
@@ -269,33 +270,32 @@
                                                 </svg>
                                                 <span class="icon-label">Relatório concluído.</span>
                                             </div>
-                                        @else
-                                            @if (isset($relatorio->prazo) && $relatorio->prazo != null)
-                                                <div class="icon-container">
-
-                                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg"
-                                                        width="16" height="16" fill="currentColor"
-                                                        class="bi bi-exclamation-circle-fill text-warning"
-                                                        viewBox="0 0 16 16" style="color: #d4c757">
-                                                        <path
-                                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2" />
-                                                    </svg>
-                                                    <span class="icon-label">Relatório em atraso.</span>
-                                                </div>
-                                            @else
-                                                <div class="icon-container">
-                                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg"
-                                                        width="16" height="16" fill="currentColor"
-                                                        class="bi bi-x-circle-fill text-danger  " viewBox="0 0 16 16"
-                                                        style="color: #990e0e">
-                                                        <path
-                                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
-                                                    </svg>
-                                                    <span class="icon-label">Relatório para fazer, dentro do
-                                                        prazo.</span>
-                                                </div>
-                                            @endif
+                                        @elseif($relatorio->verificaPrazo() == 2)
+                                            <div class="icon-container">
+                                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                    height="16" fill="currentColor"
+                                                    class="bi bi-exclamation-circle-fill text-warning"
+                                                    viewBox="0 0 16 16" style="color: #d4c757">
+                                                    <path
+                                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2" />
+                                                </svg>
+                                                <span class="icon-label">Relatório em atraso.</span>
+                                            </div>
+                                        @elseif($relatorio->verificaPrazo() == 3)
+                                            <div class="icon-container">
+                                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                    height="16" fill="currentColor"
+                                                    class="bi bi-x-circle-fill text-danger  " viewBox="0 0 16 16"
+                                                    style="color: #990e0e">
+                                                    <path
+                                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                                                </svg>
+                                                <span class="icon-label">Relatório para fazer, dentro do
+                                                    prazo.</span>
+                                            </div>
                                         @endif
+
+
                                     </td>
                                     <td>
                                         {{ $relatorio->tempo }}
@@ -340,6 +340,7 @@
                         </tbody>
                     </table>
         @endif
+
     </div>
     </div>
     </div>
@@ -353,11 +354,27 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="grafico"
+                    {{-- <div class="grafico"
                         style="position: relative; height:40vh; width:100%; display: flex; justify-content: center;">
                         <canvas id="myChart"></canvas>
                         <h5>Total de relatórios: {{ $totalRelatorios }}</h5>
                     </div>
+                    <div>
+                        <canvas id="myChart2"></canvas>
+                    </div> --}}
+
+                    <div class="row">
+                        <div class="col-6">
+                            <p>Dados dos relátorios cadastrados</p>
+                            <canvas id="myChart" height=10vh" width="30vw"></canvas>
+                        </div>
+                        <div class="col-6">
+                            <p>Dados dos tópicos cadastrados</p>
+                            <canvas id="myChart2" ></canvas>
+                        </div>
+                    </div>
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -365,33 +382,82 @@
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+
+
+
         const ctx = document.getElementById('myChart');
 
-        new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Feitos', 'Faltando', 'Atrasados'],
-                datasets: [{
-                    label: 'Relatórios',
-                    data: [{{ $relatoriosFeitos }}, {{ $relatoriosFaltando }},
-                        {{ $relatoriosAtrasados }}],
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(255, 205, 86, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 205, 86, 1)',
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {}
-        });
+new Chart(ctx, {
+    type: 'polarArea',
+    data: {
+        labels: ['Feitos', 'Faltando', 'Atrasados'],
+        datasets: [{
+            label: 'Relatórios',
+            data: [{{ $relatoriosFeitos }}, {{ $relatoriosFaltando }},
+                {{ $relatoriosAtrasados }}
+            ],
+            backgroundColor: [
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 205, 86, 1)',
+            ],
+            borderWidth: 1,
+        }]
+    },
+    options: {}
+});
+
+
+const ctx2 = document.getElementById('myChart2');
+
+const topicosData = {!! json_encode($topicosQuantidade) !!};
+
+const labels = [];
+const data = [];
+const backgroundColor = [];
+const borderColor = [];
+
+// Iterar sobre os dados e criar os arrays necessários
+topicosData.forEach(item => {
+    labels.push(item.titulo);
+    data.push(item.quantidade);
+    backgroundColor.push( 'rgba(75, 192, 192, 0.2)',
+                 'rgba(255, 99, 132, 0.2)',
+                 'rgba(255, 205, 86, 0.2)',);
+    borderColor.push('rgba(75, 192, 192, 1)',
+                 'rgba(255, 99, 132, 1)',
+                 'rgba(255, 205, 86, 1)',);
+});
+
+
+
+
+new Chart(ctx2, {
+    type: 'polarArea',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: '',
+            data: data,
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
+            borderWidth: 1
+        }]
+    },
+    options: {}
+});
+
+
+
+
     </script>
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
@@ -408,4 +474,4 @@
 </script>
 
 
-</html> 
+</html>

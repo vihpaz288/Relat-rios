@@ -21,6 +21,7 @@ class relatorioCreateFormRequest extends FormRequest
      */
     public function rules(): array
     {
+        $anoLimite = Date('Y') + 2;
         return [
             'titulo' => [
                 'required',
@@ -33,8 +34,10 @@ class relatorioCreateFormRequest extends FormRequest
                 'max:100'
             ],
             'tempo' => [
+                'date_format:Y-m-d',
                 'date',
                 'after_or_equal:today',
+                'before_or_equal:' . $anoLimite . '-12-31',
                 'required',
             ],
             'topico_id' => [
@@ -47,6 +50,8 @@ class relatorioCreateFormRequest extends FormRequest
     {
         return [
             'tempo.after_or_equal' => 'Prazo final não pode ser menor que data atual',
+            'tempo.before_or_equal' => 'Data não pode ser maior que dois anos da data atual',
+            'date_format' => 'Data precisa ser em um formato valido.',
             'tempo.required' => 'Prazo final é obrigatória',
             'tempo.date' => 'Prazo final precisa ser selecionado',
             'titulo.required' => 'Campo título é obrigatório',
