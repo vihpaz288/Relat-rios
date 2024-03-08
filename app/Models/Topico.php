@@ -12,8 +12,6 @@ class Topico extends Model
         'user_id',
         'titulo'
     ];
-
-
     public function relatorio()
     {
         return $this->hasMany(relatorio::class, 'topico_id', 'id');

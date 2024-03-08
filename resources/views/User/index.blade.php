@@ -259,7 +259,6 @@
                                     <td>{{ $relatorio->topico->titulo }}</td>
                                     <td>{{ $relatorio->titulo }}</td>
                                     <td>
-
                                         @if ($relatorio->verificaPrazo() == 1)
                                             <div class="icon-container">
                                                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -294,8 +293,6 @@
                                                     prazo.</span>
                                             </div>
                                         @endif
-
-
                                     </td>
                                     <td>
                                         {{ $relatorio->tempo }}
@@ -340,11 +337,9 @@
                         </tbody>
                     </table>
         @endif
-
     </div>
     </div>
     </div>
-
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl">
@@ -354,15 +349,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{-- <div class="grafico"
-                        style="position: relative; height:40vh; width:100%; display: flex; justify-content: center;">
-                        <canvas id="myChart"></canvas>
-                        <h5>Total de relatórios: {{ $totalRelatorios }}</h5>
-                    </div>
-                    <div>
-                        <canvas id="myChart2"></canvas>
-                    </div> --}}
-
                     <div class="row">
                         <div class="col-6">
                             <p>Dados dos relátorios cadastrados</p>
@@ -370,11 +356,9 @@
                         </div>
                         <div class="col-6">
                             <p>Dados dos tópicos cadastrados</p>
-                            <canvas id="myChart2" ></canvas>
+                            <canvas id="myChart2"></canvas>
                         </div>
                     </div>
-
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -382,82 +366,63 @@
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-
-
-
         const ctx = document.getElementById('myChart');
-
-new Chart(ctx, {
-    type: 'polarArea',
-    data: {
-        labels: ['Feitos', 'Faltando', 'Atrasados'],
-        datasets: [{
-            label: 'Relatórios',
-            data: [{{ $relatoriosFeitos }}, {{ $relatoriosFaltando }},
-                {{ $relatoriosAtrasados }}
-            ],
-            backgroundColor: [
-                'rgba(75, 192, 192, 0.2)',
+        new Chart(ctx, {
+            type: 'polarArea',
+            data: {
+                labels: ['Feitos', 'Faltando', 'Atrasados'],
+                datasets: [{
+                    label: 'Relatórios',
+                    data: [{{ $relatoriosFeitos }}, {{ $relatoriosFaltando }},
+                        {{ $relatoriosAtrasados }}
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 205, 86, 1)',
+                    ],
+                    borderWidth: 1,
+                }]
+            },
+            options: {}
+        });
+        const ctx2 = document.getElementById('myChart2');
+        const topicosData = {!! json_encode($topicosQuantidade) !!};
+        const labels = [];
+        const data = [];
+        const backgroundColor = [];
+        const borderColor = [];
+        topicosData.forEach(item => {
+            labels.push(item.titulo);
+            data.push(item.quantidade);
+            backgroundColor.push('rgba(75, 192, 192, 0.2)',
                 'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 205, 86, 0.2)',
-            ],
-            borderColor: [
-                'rgba(75, 192, 192, 1)',
+                'rgba(255, 205, 86, 0.2)', );
+            borderColor.push('rgba(75, 192, 192, 1)',
                 'rgba(255, 99, 132, 1)',
-                'rgba(255, 205, 86, 1)',
-            ],
-            borderWidth: 1,
-        }]
-    },
-    options: {}
-});
-
-
-const ctx2 = document.getElementById('myChart2');
-
-const topicosData = {!! json_encode($topicosQuantidade) !!};
-
-const labels = [];
-const data = [];
-const backgroundColor = [];
-const borderColor = [];
-
-// Iterar sobre os dados e criar os arrays necessários
-topicosData.forEach(item => {
-    labels.push(item.titulo);
-    data.push(item.quantidade);
-    backgroundColor.push( 'rgba(75, 192, 192, 0.2)',
-                 'rgba(255, 99, 132, 0.2)',
-                 'rgba(255, 205, 86, 0.2)',);
-    borderColor.push('rgba(75, 192, 192, 1)',
-                 'rgba(255, 99, 132, 1)',
-                 'rgba(255, 205, 86, 1)',);
-});
-
-
-
-
-new Chart(ctx2, {
-    type: 'polarArea',
-    data: {
-        labels: labels,
-        datasets: [{
-            label: '',
-            data: data,
-            backgroundColor: backgroundColor,
-            borderColor: borderColor,
-            borderWidth: 1
-        }]
-    },
-    options: {}
-});
-
-
-
-
+                'rgba(255, 205, 86, 1)', );
+        });
+        new Chart(ctx2, {
+            type: 'polarArea',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '',
+                    data: data,
+                    backgroundColor: backgroundColor,
+                    borderColor: borderColor,
+                    borderWidth: 1
+                }]
+            },
+            options: {}
+        });
     </script>
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
@@ -472,6 +437,5 @@ new Chart(ctx2, {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
 </script>
-
 
 </html>

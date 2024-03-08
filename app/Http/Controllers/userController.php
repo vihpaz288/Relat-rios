@@ -18,21 +18,15 @@ class userController extends Controller
     public function index()
     {
         $user = Auth::user();
-
         $relatorios = Relatorio::where('user_id', $user->id)->get();
         $totalRelatorios = Relatorio::where('user_id', $user->id)->count();
         $relatoriosFeitos = Relatorio::where('situacao', 'concluido')->where('user_id', $user->id)->count();
         $relatoriosFaltando = Relatorio::whereNull('situacao')->where('user_id', $user->id)->count();
         $relatoriosAtrasados = Relatorio::where('tempo', '<', now())->where('user_id', $user->id)->count();
-
-
-
-
         $topicosQuantidade = Relatorio::where('topicos.user_id', $user->id)->join('topicos', 'relatorios.topico_id', '=', 'topicos.id')
             ->select('topicos.titulo', Relatorio::raw('count(*) as quantidade'))
             ->groupBy('topicos.titulo')
             ->get();
-
         return view('User.index', compact('relatorios', 'totalRelatorios', 'relatoriosFeitos', 'relatoriosFaltando', 'relatoriosAtrasados', 'topicosQuantidade'));
     }
 
